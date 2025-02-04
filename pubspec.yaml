@@ -2,7 +2,7 @@ name: flutter_model_gen
 description: |
   `flutter_model_gen` is a command-line tool designed to simplify the process of generating model classes with `json_serializable`, `injectable`, and `get_it` integration in Flutter projects. It automatically creates models with required annotations, including `fromJson`, `toJson`, and dependency injection setup, ensuring a clean and maintainable architecture.
 
-version: 1.0.0
+version: 1.0.2
 homepage: https://github.com/jayvibespro/flutter_gen
 repository: https://github.com/jayvibespro/flutter_gen
 license: MIT
@@ -22,5 +22,5 @@ dev_dependencies:
   json_serializable: ^6.2.7
 
 executables:
-  flutter_gen:
+  flutter_model_gen:
 
