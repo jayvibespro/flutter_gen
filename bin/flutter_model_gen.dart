@@ -1,11 +1,14 @@
 import 'dart:io';
 
+/// This is the main function. The main entry point of our library.
 void main(List<String> arguments) {
+  /// Checking if there are no arguments provided.
   if (arguments.isEmpty) {
     print('❌ Usage: flutter_gen create_model ModelName field:type field:type');
     exit(1);
   }
 
+  /// Proceed if arguments are found.
   final command = arguments[0];
 
   if (command == 'create_model' && arguments.length > 1) {
@@ -25,6 +28,7 @@ void main(List<String> arguments) {
   }
 }
 
+/// Generates a model class with JSON serialization.
 void _generateModel(String name, List<String> fields) {
   final className = _capitalize(name);
   final fileName = _snakeCase(name);
@@ -39,20 +43,18 @@ class $className {
 
   $className({${fields.map((f) => 'required this.${_parseField(f)}').join(', ')}});
 
-  /// Converts a JSON Map into an instance of $className
+  /// Converts a JSON Map into an instance of $className.
   factory $className.fromJson(Map<String, dynamic> json) => _\$${className}FromJson(json);
 
-  /// Converts this instance into a JSON Map
+  /// Converts this instance into a JSON Map.
   Map<String, dynamic> toJson() => _\$${className}ToJson(this);
 }
   ''';
-
   _writeFile('lib/models/$fileName.dart', fileContent);
-
-  // Automatically run build_runner to generate the *.g.dart file
   _runBuildRunner();
 }
 
+/// Generates a service class for API interaction.
 void _generateService(String name) {
   final className = _capitalize(name);
   final fileName = _snakeCase(name);
@@ -66,10 +68,10 @@ class ${className}Service {
   }
 }
   ''';
-
   _writeFile('lib/services/${fileName}_service.dart', fileContent);
 }
 
+/// Generates a controller class for business logic.
 void _generateController(String name) {
   final className = _capitalize(name);
   final fileName = _snakeCase(name);
@@ -80,18 +82,18 @@ import '../services/${fileName}_service.dart';
 @injectable
 class ${className}Controller {
   final ${className}Service _service;
-
   ${className}Controller(this._service);
 
+  /// Fetches data using the service.
   void fetchData() {
     _service.fetch$className();
   }
 }
   ''';
-
   _writeFile('lib/controllers/${fileName}_controller.dart', fileContent);
 }
 
+/// Generates a singleton state class.
 void _generateState(String name) {
   final className = _capitalize(name);
   final fileName = _snakeCase(name);
@@ -100,14 +102,13 @@ class ${className}State {
   static final ${className}State _instance = ${className}State._internal();
   
   factory ${className}State() => _instance;
-
   ${className}State._internal();
 }
   ''';
-
   _writeFile('lib/state/${fileName}_state.dart', fileContent);
 }
 
+/// Generates a Flutter page for UI.
 void _generatePage(String name) {
   final className = _capitalize(name);
   final fileName = _snakeCase(name);
@@ -129,10 +130,10 @@ class ${className}Page extends StatelessWidget {
   }
 }
   ''';
-
   _writeFile('lib/pages/${fileName}_page.dart', fileContent);
 }
 
+/// Writes content to a file, creating necessary directories.
 void _writeFile(String path, String content) {
   final file = File(path);
   file.createSync(recursive: true);
@@ -140,11 +141,18 @@ void _writeFile(String path, String content) {
   print('✅ Created: $path');
 }
 
+/// Capitalizes the first letter of a string.
 String _capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+/// Converts a string to snake_case.
 String _snakeCase(String s) => s
     .replaceAllMapped(RegExp(r'[A-Z]'), (m) => '_${m.group(0)?.toLowerCase()}')
     .substring(1);
+
+/// Extracts the field name from a field:type pair.
 String _parseField(String field) => field.split(':')[0];
+
+/// Maps string type definitions to Dart types.
 String _parseType(String field) {
   final type = field.split(':')[1].toLowerCase();
   switch (type) {
@@ -169,6 +177,7 @@ String _parseType(String field) {
   }
 }
 
+/// Runs build_runner to generate necessary code.
 void _runBuildRunner() async {
   final result = await Process.run(
     'dart',
@@ -177,8 +186,8 @@ void _runBuildRunner() async {
   );
 
   if (result.exitCode == 0) {
-    print('Build runner completed successfully!');
+    print('✅ Build runner completed successfully!');
   } else {
-    print('Error running build_runner: ${result.stderr}');
+    print('❌ Error running build_runner: ${result.stderr}');
   }
 }
