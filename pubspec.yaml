@@ -2,7 +2,8 @@ name: flutter_model_gen
 description: |
   `flutter_model_gen` automates model class generation with `json_serializable`, `injectable`, and `get_it`, including DI setup for `clean architecture`
 
-version: 1.0.2
+version: 1.1.0
+
 homepage: https://github.com/jayvibespro/flutter_gen
 repository: https://github.com/jayvibespro/flutter_gen
 license: MIT
@@ -11,16 +12,19 @@ environment:
   sdk: ^3.4.3
 
 dependencies:
-  json_annotation: ^4.8.1
-  injectable: ^1.5.3
+  json_annotation: ^4.9.0
+  injectable: ^2.5.0
 
 dev_dependencies:
-  lints: ^3.0.0
-  test: ^1.24.0
-  build_runner: ^2.4.6
-  injectable_generator: ^1.5.3
-  json_serializable: ^6.2.7
+  lints: ^5.1.1
+  test: ^1.25.15
+  build_runner: ^2.4.15
+  injectable_generator: ^2.7.0
+  json_serializable: ^6.9.4
 
 executables:
   flutter_model_gen:
+
+example:
+  path: example/
 
