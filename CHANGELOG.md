@@ -10,3 +10,4 @@
 ### Changed
 - Updated the State, Controller and Widget structure.
 - Added Example for the new Implementation.
+- Updated Dependencies `injectable` and `get_it`
